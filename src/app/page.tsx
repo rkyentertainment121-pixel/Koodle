@@ -1,3 +1,4 @@
+import { AdBanner } from '@/components/ad-banner';
 import { GeometricBackground } from '@/components/common/geometric-background';
 import { Logo } from '@/components/logo';
 import { SearchForm } from '@/components/search-form';
@@ -11,9 +12,7 @@ export default function Home() {
           <Logo />
         </header>
 
-        <div className="w-full py-4 text-center border-y bg-background/50">
-          <p className="text-sm text-muted-foreground">Advertisement</p>
-        </div>
+        <AdBanner />
 
         <main className="relative z-10 flex flex-col items-center justify-center gap-6 p-4 text-center flex-grow">
           <div className="flex flex-col items-center gap-2">
@@ -27,9 +26,7 @@ export default function Home() {
           <SearchForm />
         </main>
 
-        <div className="w-full py-4 text-center border-y bg-background/50">
-          <p className="text-sm text-muted-foreground">Advertisement</p>
-        </div>
+        <AdBanner />
       </div>
     </div>
   );
