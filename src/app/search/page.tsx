@@ -2,7 +2,6 @@
 
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-import { AdBanner } from '@/components/ad-banner';
 
 function SearchResults() {
   const searchParams = useSearchParams();
@@ -42,11 +41,9 @@ export default function SearchPage() {
       }
     >
       <div className="flex flex-col h-screen">
-        <AdBanner adKey="search-top" />
-        <main className="flex-grow">
+        <main className="flex-grow h-full">
           <SearchResults />
         </main>
-        <AdBanner adKey="search-bottom" />
       </div>
     </Suspense>
   );

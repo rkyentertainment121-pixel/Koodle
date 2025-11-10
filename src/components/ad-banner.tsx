@@ -13,8 +13,9 @@ export function AdBanner({ adKey }: { adKey: string }) {
 
   useEffect(() => {
     // Check if an ad has already been loaded in this container
-    if (adRef.current && adRef.current.querySelector('iframe')) {
-      return;
+    if (adRef.current && adRef.current.innerHTML.trim() !== '') {
+      const isAdLoaded = adRef.current.querySelector('iframe.adsbygoogle-noablate');
+      if(isAdLoaded) return;
     }
 
     try {
