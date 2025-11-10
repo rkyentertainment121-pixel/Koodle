@@ -18,15 +18,17 @@ function SearchResults() {
     );
   }
 
-  const searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(
+  // The &igu=1 parameter is added to keep Google in the iframe.
+  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(
     query
-  )}`;
+  )}&igu=1`;
 
   return (
     <iframe
       src={searchUrl}
       title="Search Results"
       className="h-full w-full border-none"
+      sandbox="allow-scripts allow-forms allow-same-origin"
     />
   );
 }
