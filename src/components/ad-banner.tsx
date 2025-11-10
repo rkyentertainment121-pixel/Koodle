@@ -12,10 +12,11 @@ export function AdBanner({ adKey }: { adKey: string }) {
   const adRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check if an ad has already been loaded in this container
-    if (adRef.current && adRef.current.innerHTML.trim() !== '') {
-      const isAdLoaded = adRef.current.querySelector('iframe.adsbygoogle-noablate');
-      if(isAdLoaded) return;
+    if (adRef.current && adRef.current.hasChildNodes()) {
+      const adContainer = adRef.current.querySelector('ins.adsbygoogle');
+      if (adContainer && adContainer.getAttribute('data-adsbygoogle-status') === 'done') {
+        return;
+      }
     }
 
     try {
