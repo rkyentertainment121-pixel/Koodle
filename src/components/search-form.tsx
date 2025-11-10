@@ -19,6 +19,7 @@ const formSchema = z.object({
 });
 
 export function SearchForm() {
+  const router = useRouter();
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
 
@@ -59,10 +60,7 @@ export function SearchForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.query.trim()) {
-      const bingSearchUrl = `https://www.bing.com/search?q=${encodeURIComponent(
-        values.query
-      )}`;
-      window.open(bingSearchUrl, '_blank');
+      router.push(`/search?q=${encodeURIComponent(values.query)}`);
     }
   }
 
