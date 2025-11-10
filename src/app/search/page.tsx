@@ -6,7 +6,6 @@ import { AdBanner } from '@/components/ad-banner';
 import { GeometricBackground } from '@/components/common/geometric-background';
 import { Logo } from '@/components/logo';
 import { SearchForm } from '@/components/search-form';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 function SearchResults() {
@@ -50,7 +49,7 @@ export default function SearchPage() {
             </Link>
           </header>
 
-          <AdBanner />
+          <AdBanner adKey="search-top" />
 
           <main className="relative z-10 flex flex-col items-center justify-center gap-6 p-4 text-center">
             <SearchForm />
@@ -59,7 +58,7 @@ export default function SearchPage() {
             </div>
           </main>
 
-          <AdBanner />
+          <AdBanner adKey="search-bottom" />
         </div>
       </div>
     </Suspense>

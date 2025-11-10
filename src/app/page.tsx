@@ -15,7 +15,7 @@ export default function Home() {
           </Link>
         </header>
 
-        <AdBanner />
+        <AdBanner adKey="home-top" />
 
         <main className="relative z-10 flex flex-col items-center justify-center gap-6 p-4 text-center flex-grow">
           <div className="flex flex-col items-center gap-2">
@@ -29,7 +29,7 @@ export default function Home() {
           <SearchForm />
         </main>
 
-        <AdBanner />
+        <AdBanner adKey="home-bottom" />
       </div>
     </div>
   );

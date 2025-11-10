@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 declare global {
   interface Window {
@@ -8,22 +8,33 @@ declare global {
   }
 }
 
-export function AdBanner() {
+export function AdBanner({ adKey }: { adKey: string }) {
+  const adRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    // Check if an ad has already been loaded in this container
+    if (adRef.current && adRef.current.querySelector('iframe')) {
+      return;
+    }
+
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
-      console.error(err);
+      console.error('adsbygoogle.push() error:', err);
     }
-  }, []);
+  }, [adKey]);
 
   return (
-    <div className="w-full py-4 text-center border-y bg-background/50">
+    <div
+      ref={adRef}
+      key={adKey}
+      className="w-full py-4 text-center border-y bg-background/50"
+    >
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
-        data-ad-client="YOUR_ADSENSE_CLIENT_ID" // Replace with your client ID
-        data-ad-slot="YOUR_AD_SLOT_ID" // Replace with your ad slot ID
+        data-ad-client="YOUR_ADSENSE_CLIENT_ID"
+        data-ad-slot="YOUR_AD_SLOT_ID"
         data-ad-format="auto"
         data-full-width-responsive="true"
       ></ins>
