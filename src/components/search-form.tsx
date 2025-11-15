@@ -10,13 +10,6 @@ import { getSearchSuggestions } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
 const categories = ['news', 'design', 'react', 'ai', 'docs'];
 
@@ -34,7 +27,7 @@ const formSchema = z.object({
 export function SearchForm() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
-  const [searchEngine, setSearchEngine] = useState('bing');
+  const [searchEngine] = useState('bing');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -96,18 +89,6 @@ export function SearchForm() {
     <div className="w-full max-w-2xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="relative flex items-center gap-2">
-          <Select value={searchEngine} onValueChange={setSearchEngine}>
-            <SelectTrigger className="w-[140px] h-14 rounded-full bg-card shadow-md">
-              <SelectValue placeholder="Search Engine" />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(searchEngines).map(([key, { name }]) => (
-                <SelectItem key={key} value={key}>
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
           <div className="relative flex-grow">
             <FormField
               control={form.control}
@@ -137,7 +118,7 @@ export function SearchForm() {
 
       <div className="relative">
         {(isPending || (suggestions && suggestions.length > 0)) && (
-          <div className="absolute top-2 z-20 w-full overflow-hidden rounded-lg border bg-card p-2 shadow-lg ml-[148px]">
+          <div className="absolute top-2 z-20 w-full overflow-hidden rounded-lg border bg-card p-2 shadow-lg">
             {isPending && (!suggestions || suggestions.length === 0) ? (
               <div className="flex items-center justify-center p-4">
                 <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
