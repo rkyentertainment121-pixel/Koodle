@@ -60,7 +60,7 @@ export function SearchForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.query.trim()) {
       const searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(values.query)}`;
-      window.open(searchUrl, '_blank');
+      window.location.href = searchUrl;
     }
   }
 
