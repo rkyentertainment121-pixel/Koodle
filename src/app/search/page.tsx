@@ -18,10 +18,9 @@ function SearchResults() {
     );
   }
 
-  // The &igu=1 parameter is added to keep Google in the iframe.
-  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(
+  const searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(
     query
-  )}&igu=1`;
+  )}`;
 
   return (
     <iframe
