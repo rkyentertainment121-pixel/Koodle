@@ -10,15 +10,9 @@ import { getSearchSuggestions } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useSettings } from '@/context/settings-context';
 
 const categories = ['news', 'design', 'react', 'ai', 'docs'];
-
-const searchEngines = {
-  bing: { name: 'Bing', url: 'https://www.bing.com/search?q=' },
-  google: { name: 'Google', url: 'https://www.google.com/search?q=' },
-  duckduckgo: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
-  yahoo: { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=' },
-};
 
 const formSchema = z.object({
   query: z.string(),
@@ -27,7 +21,7 @@ const formSchema = z.object({
 export function SearchForm() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
-  const [searchEngine] = useState('bing');
+  const { settings } = useSettings();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,7 +60,7 @@ export function SearchForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.query.trim()) {
-      const baseUrl = searchEngines[searchEngine as keyof typeof searchEngines].url;
+      const baseUrl = settings.searchEngines[settings.defaultSearchEngine].url;
       const searchUrl = `${baseUrl}${encodeURIComponent(values.query)}`;
       window.location.href = searchUrl;
     }
