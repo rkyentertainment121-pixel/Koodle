@@ -10,15 +10,21 @@ declare global {
 
 export function AdBanner({ adKey }: { adKey: string }) {
   const adRef = useRef<HTMLDivElement>(null);
+  const loaded = useRef(false);
 
   useEffect(() => {
-    // This effect attempts to push an ad into the queue.
-    // We're wrapping it in a try/catch block to prevent errors
-    // in development environments where the Google AdSense script might be blocked.
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (err) {
-      console.error('AdSense error:', err);
+    if (!adRef.current || loaded.current) {
+      return;
+    }
+
+    const adElement = adRef.current;
+    if (adElement.offsetWidth > 0) {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        loaded.current = true; // Mark as loaded to prevent re-pushing
+      } catch (err) {
+        console.error('AdSense error:', err);
+      }
     }
   }, [adKey]);
 
@@ -30,9 +36,9 @@ export function AdBanner({ adKey }: { adKey: string }) {
     >
       <ins
         className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client="YOUR_ADSENSE_CLIENT_ID" // Replace with your AdSense client ID
-        data-ad-slot="YOUR_AD_SLOT_ID"         // Replace with your ad slot ID
+        style={{ display: 'block', width: '100%' }}
+        data-ad-client="YOUR_ADSENSE_CLIENT_ID"
+        data-ad-slot="YOUR_AD_SLOT_ID"
         data-ad-format="auto"
         data-full-width-responsive="true"
       ></ins>
