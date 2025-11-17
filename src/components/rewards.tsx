@@ -25,7 +25,7 @@ export function Rewards() {
   const canWithdraw = settings.rewardPoints >= 50;
 
   const redeemButton = (
-    <Button variant="ghost" size="sm" className="p-1 h-auto">
+    <Button variant="ghost" size="sm" className="p-1 h-auto" disabled={!canWithdraw}>
       Redeem
       <ChevronDown className="h-4 w-4" />
     </Button>
@@ -44,7 +44,7 @@ export function Rewards() {
           <DropdownMenu>
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger asChild disabled={!canWithdraw}>
+                <TooltipTrigger asChild>
                   {redeemButton}
                 </TooltipTrigger>
                 {!canWithdraw && (
