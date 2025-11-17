@@ -65,7 +65,7 @@ export function SearchForm() {
         rewardPoints: prevSettings.rewardPoints + 10,
       }));
       const searchUrl = settings.searchEngines[settings.defaultSearchEngine].url;
-      window.open(`${searchUrl}${encodeURIComponent(values.query)}`, '_blank');
+      window.location.href = `${searchUrl}${encodeURIComponent(values.query)}`;
     }
   }
 
