@@ -48,7 +48,12 @@ export default function TermsPage() {
                 Any attempt to manipulate the reward system through automated means or other fraudulent activities will result in account suspension and forfeiture of all points.
               </p>
 
-              <h3 className="font-semibold text-lg text-foreground pt-4">4. Disclaimer</h3>
+              <h3 className="font-semibold text-lg text-foreground pt-4">4. Grow with Kenz Media</h3>
+              <p>
+                You can run your own ads and grow your website with Kenz Media. Contact us to learn more about our advertising and web development services.
+              </p>
+              
+              <h3 className="font-semibold text-lg text-foreground pt-4">5. Disclaimer</h3>
               <p>
                 The service is provided "as is" without any warranties. Kenz Media disclaims all warranties, whether express or implied, including the warranty of merchantability, fitness for a particular purpose, and non-infringement.
               </p>
