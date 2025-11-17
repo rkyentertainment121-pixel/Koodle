@@ -30,16 +30,19 @@ export function Rewards() {
         <Award className="h-5 w-5 text-primary" />
         <span className="font-semibold">{settings.rewardPoints}</span>
         <span className="text-sm text-muted-foreground">Points</span>
-
-        <div className="border-l border-border/50 h-6 mx-2"></div>
-
+        <div className="h-6 border-l border-border/50 mx-2"></div>
         <WithdrawDialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DropdownMenu>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <DropdownMenuTrigger asChild disabled={!canWithdraw}>
-                    <Button variant="ghost" size="sm" className="p-1 h-auto">
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-auto p-1"
+                      disabled={!canWithdraw}
+                    >
                       Redeem
                       <ChevronDown className="h-4 w-4" />
                     </Button>
