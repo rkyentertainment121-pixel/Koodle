@@ -17,8 +17,6 @@ export default function Home() {
           <Rewards />
         </header>
 
-        <AdBanner adKey="home-top" />
-
         <main className="relative z-10 flex flex-col items-center justify-center gap-6 p-4 text-center flex-grow">
           <div className="flex flex-col items-center gap-2">
             <h1 className="text-6xl font-bold tracking-tighter text-foreground sm:text-7xl md:text-8xl">
@@ -30,8 +28,6 @@ export default function Home() {
           </div>
           <SearchForm />
         </main>
-
-        <AdBanner adKey="home-bottom" />
       </div>
     </div>
   );

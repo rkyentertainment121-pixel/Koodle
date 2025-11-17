@@ -5,7 +5,6 @@ import { Loader2 } from 'lucide-react';
 import { useEffect, useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { useRouter } from 'next/navigation';
 
 import { getSearchSuggestions } from '@/app/actions';
 import { Button } from '@/components/ui/button';
@@ -22,8 +21,7 @@ const formSchema = z.object({
 export function SearchForm() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
-  const { setSettings } = useSettings();
-  const router = useRouter();
+  const { settings, setSettings } = useSettings();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,7 +64,8 @@ export function SearchForm() {
         ...prevSettings,
         rewardPoints: prevSettings.rewardPoints + 10,
       }));
-      router.push(`/search?q=${encodeURIComponent(values.query)}`);
+      const searchUrl = settings.searchEngines[settings.defaultSearchEngine].url;
+      window.open(`${searchUrl}${encodeURIComponent(values.query)}`, '_blank');
     }
   }
 
@@ -95,7 +94,7 @@ export function SearchForm() {
                 <FormItem>
                   <FormControl>
                     <Input
-                      placeholder="Search the web..."
+                      placeholder="Search with Bing..."
                       className="h-14 rounded-full bg-card px-6 pr-36 text-base shadow-md transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       {...field}
                     />
