@@ -11,12 +11,30 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from './ui/button';
 import { useState } from 'react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 export function Rewards() {
   const { settings } = useSettings();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const canWithdraw = settings.rewardPoints >= 50;
+
+  const redeemButton = (
+    <Button
+      variant="ghost"
+      size="sm"
+      className="p-1 h-auto"
+      disabled={!canWithdraw}
+    >
+      Redeem
+      <ChevronDown className="h-4 w-4" />
+    </Button>
+  );
 
   return (
     <div className="flex items-center gap-4">
@@ -25,27 +43,34 @@ export function Rewards() {
         <span className="font-semibold">{settings.rewardPoints}</span>
         <span className="text-sm text-muted-foreground">Points</span>
 
-        {canWithdraw && (
-          <>
-            <div className="border-l border-border/50 h-6 mx-2"></div>
-            <WithdrawDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="p-1 h-auto">
-                    Redeem
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setDialogOpen(true)}>
-                    <IndianRupee className="mr-2 h-4 w-4" />
-                    <span>Withdraw</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </WithdrawDialog>
-          </>
-        )}
+        <div className="border-l border-border/50 h-6 mx-2"></div>
+
+        <WithdrawDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DropdownMenu>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <DropdownMenuTrigger asChild>{redeemButton}</DropdownMenuTrigger>
+                </TooltipTrigger>
+                {!canWithdraw && (
+                  <TooltipContent>
+                    <p>You need at least 50 points to redeem.</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => setDialogOpen(true)}
+                disabled={!canWithdraw}
+              >
+                <IndianRupee className="mr-2 h-4 w-4" />
+                <span>Withdraw</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </WithdrawDialog>
       </div>
     </div>
   );
