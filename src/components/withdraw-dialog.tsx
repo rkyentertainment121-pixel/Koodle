@@ -73,8 +73,8 @@ export function WithdrawDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">
-          <IndianRupee className="mr-2 h-4 w-4" />
+        <Button variant="ghost" size="sm" className="p-1 h-auto">
+          <IndianRupee className="mr-1 h-4 w-4" />
           Withdraw
         </Button>
       </DialogTrigger>

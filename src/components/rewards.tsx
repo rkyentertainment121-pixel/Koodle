@@ -16,8 +16,11 @@ export function Rewards() {
         <Award className="h-5 w-5 text-primary" />
         <span className="font-semibold">{settings.rewardPoints}</span>
         <span className="text-sm text-muted-foreground">Points</span>
+        {canWithdraw && (
+          <div className="border-l border-border/50 h-6 mx-2"></div>
+        )}
+        {canWithdraw && <WithdrawDialog />}
       </div>
-      {canWithdraw && <WithdrawDialog />}
     </div>
   );
 }
