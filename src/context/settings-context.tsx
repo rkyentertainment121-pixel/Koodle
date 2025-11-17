@@ -8,12 +8,13 @@ type SearchEngine = {
 };
 
 type SearchEngines = {
-  [key: string]: SearchEngine;
+  [key:string]: SearchEngine;
 };
 
 type Settings = {
   defaultSearchEngine: keyof SearchEngines;
   searchEngines: SearchEngines;
+  rewardPoints: number;
 };
 
 type SettingsContextType = {
@@ -29,6 +30,7 @@ const defaultSettings: Settings = {
     duckduckgo: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
     yahoo: { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=' },
   },
+  rewardPoints: 0,
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);

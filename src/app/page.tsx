@@ -1,6 +1,7 @@
 import { AdBanner } from '@/components/ad-banner';
 import { GeometricBackground } from '@/components/common/geometric-background';
 import { Logo } from '@/components/logo';
+import { Rewards } from '@/components/rewards';
 import { SearchForm } from '@/components/search-form';
 import Link from 'next/link';
 
@@ -9,10 +10,11 @@ export default function Home() {
     <div className="relative min-h-screen w-full">
       <GeometricBackground />
       <div className="flex flex-col min-h-screen">
-        <header className="p-6 md:p-8">
+        <header className="p-6 md:p-8 flex justify-between items-center">
           <Link href="/">
             <Logo />
           </Link>
+          <Rewards />
         </header>
 
         <AdBanner adKey="home-top" />

@@ -21,7 +21,7 @@ const formSchema = z.object({
 export function SearchForm() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
-  const { settings } = useSettings();
+  const { settings, setSettings } = useSettings();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,7 +62,11 @@ export function SearchForm() {
     if (values.query.trim()) {
       const baseUrl = settings.searchEngines[settings.defaultSearchEngine].url;
       const searchUrl = `${baseUrl}${encodeURIComponent(values.query)}`;
-      window.location.href = searchUrl;
+      window.open(searchUrl, '_blank');
+      setSettings((prevSettings) => ({
+        ...prevSettings,
+        rewardPoints: prevSettings.rewardPoints + 10,
+      }));
     }
   }
 
