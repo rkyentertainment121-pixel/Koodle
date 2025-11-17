@@ -1,11 +1,20 @@
 'use client';
 
 import { useSettings } from '@/context/settings-context';
-import { Award } from 'lucide-react';
+import { Award, ChevronDown, IndianRupee } from 'lucide-react';
 import { WithdrawDialog } from './withdraw-dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from './ui/button';
+import { useState } from 'react';
 
 export function Rewards() {
   const { settings } = useSettings();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const canWithdraw = settings.rewardPoints >= 50;
 
@@ -15,10 +24,28 @@ export function Rewards() {
         <Award className="h-5 w-5 text-primary" />
         <span className="font-semibold">{settings.rewardPoints}</span>
         <span className="text-sm text-muted-foreground">Points</span>
+
         {canWithdraw && (
-          <div className="border-l border-border/50 h-6 mx-2"></div>
+          <>
+            <div className="border-l border-border/50 h-6 mx-2"></div>
+            <WithdrawDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="p-1 h-auto">
+                    Redeem
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setDialogOpen(true)}>
+                    <IndianRupee className="mr-2 h-4 w-4" />
+                    <span>Withdraw</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </WithdrawDialog>
+          </>
         )}
-        {canWithdraw && <WithdrawDialog />}
       </div>
     </div>
   );

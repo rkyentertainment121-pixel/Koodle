@@ -18,14 +18,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
 } from '@/components/ui/dialog';
 import { useSettings } from '@/context/settings-context';
 import { useToast } from '@/hooks/use-toast';
-import { IndianRupee } from 'lucide-react';
-import { useState } from 'react';
 
 const formSchema = z.object({
   accountHolder: z.string().min(2, 'Name is too short'),
@@ -33,10 +28,15 @@ const formSchema = z.object({
   ifsc: z.string().regex(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'Enter a valid IFSC code'),
 });
 
-export function WithdrawDialog() {
+type WithdrawDialogProps = {
+  children?: React.ReactNode;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+export function WithdrawDialog({ children, open, onOpenChange }: WithdrawDialogProps) {
   const { settings, setSettings } = useSettings();
   const { toast } = useToast();
-  const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,7 +59,7 @@ export function WithdrawDialog() {
         title: 'Withdrawal Successful!',
         description: `₹10 has been sent to ${values.accountHolder}.`,
       });
-      setOpen(false); // Close the dialog
+      onOpenChange(false); // Close the dialog
       form.reset(); // Reset form
     } else {
       toast({
@@ -71,13 +71,8 @@ export function WithdrawDialog() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="p-1 h-auto">
-          <IndianRupee className="mr-1 h-4 w-4" />
-          Withdraw
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {children}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Withdraw Rewards</DialogTitle>
@@ -139,7 +134,7 @@ export function WithdrawDialog() {
                 </FormItem>
               )}
             />
-            <DialogFooter className="sm:justify-start">
+            <div className="sm:justify-start">
               <Button
                 type="submit"
                 className="w-full"
@@ -147,7 +142,7 @@ export function WithdrawDialog() {
               >
                 {canWithdraw ? 'Withdraw ₹10' : 'Insufficient Points'}
               </Button>
-            </DialogFooter>
+            </div>
           </form>
         </Form>
       </DialogContent>
