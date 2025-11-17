@@ -1,8 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { useSettings } from '@/context/settings-context';
-import { Award, IndianRupee } from 'lucide-react';
+import { Award } from 'lucide-react';
 import { WithdrawDialog } from './withdraw-dialog';
 
 export function Rewards() {
