@@ -1,10 +1,9 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
 import { useSettings } from '@/context/settings-context';
 import { Award, IndianRupee } from 'lucide-react';
-import Link from 'next/link';
+import { WithdrawDialog } from './withdraw-dialog';
 
 export function Rewards() {
   const { settings } = useSettings();
@@ -18,14 +17,7 @@ export function Rewards() {
         <span className="font-semibold">{settings.rewardPoints}</span>
         <span className="text-sm text-muted-foreground">Points</span>
       </div>
-      {canWithdraw && (
-        <Link href="/withdraw" passHref>
-          <Button size="sm">
-            <IndianRupee className="mr-2 h-4 w-4" />
-            Withdraw
-          </Button>
-        </Link>
-      )}
+      {canWithdraw && <WithdrawDialog />}
     </div>
   );
 }
