@@ -1,6 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 
 type SearchEngine = {
   name: string;
@@ -8,7 +14,7 @@ type SearchEngine = {
 };
 
 type SearchEngines = {
-  [key:string]: SearchEngine;
+  [key: string]: SearchEngine;
 };
 
 type Settings = {
@@ -33,10 +39,16 @@ const defaultSettings: Settings = {
   rewardPoints: 0,
 };
 
-const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
+const SettingsContext =
+  createContext<SettingsContextType | undefined>(undefined);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
+
+  useEffect(() => {
+    // Award 1 point when the app is opened
+    setSettings((prev) => ({ ...prev, rewardPoints: prev.rewardPoints + 1 }));
+  }, []);
 
   return (
     <SettingsContext.Provider value={{ settings, setSettings }}>
