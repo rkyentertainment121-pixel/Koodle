@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { useEffect, useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { useRouter } from 'next/navigation';
 
 import { getSearchSuggestions } from '@/app/actions';
 import { Button } from '@/components/ui/button';
@@ -21,7 +22,8 @@ const formSchema = z.object({
 export function SearchForm() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
-  const { settings, setSettings } = useSettings();
+  const { setSettings } = useSettings();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,13 +62,11 @@ export function SearchForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.query.trim()) {
-      const baseUrl = settings.searchEngines[settings.defaultSearchEngine].url;
-      const searchUrl = `${baseUrl}${encodeURIComponent(values.query)}`;
-      window.open(searchUrl, '_self');
       setSettings((prevSettings) => ({
         ...prevSettings,
         rewardPoints: prevSettings.rewardPoints + 10,
       }));
+      router.push(`/search?q=${encodeURIComponent(values.query)}`);
     }
   }
 
