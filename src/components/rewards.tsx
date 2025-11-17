@@ -24,13 +24,6 @@ export function Rewards() {
 
   const canWithdraw = settings.rewardPoints >= 50;
 
-  const redeemButton = (
-    <Button variant="ghost" size="sm" className="p-1 h-auto" disabled={!canWithdraw}>
-      Redeem
-      <ChevronDown className="h-4 w-4" />
-    </Button>
-  );
-
   return (
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-2 rounded-full bg-card/60 px-4 py-2 text-foreground backdrop-blur-sm">
@@ -45,7 +38,12 @@ export function Rewards() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  {redeemButton}
+                  <DropdownMenuTrigger asChild disabled={!canWithdraw}>
+                    <Button variant="ghost" size="sm" className="p-1 h-auto">
+                      Redeem
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
                 </TooltipTrigger>
                 {!canWithdraw && (
                   <TooltipContent>
@@ -54,7 +52,6 @@ export function Rewards() {
                 )}
               </Tooltip>
             </TooltipProvider>
-
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 onClick={() => setDialogOpen(true)}
