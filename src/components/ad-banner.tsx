@@ -17,8 +17,8 @@ export function AdBanner({ adKey }: { adKey: string }) {
       return;
     }
 
-    const adElement = adRef.current;
-    if (adElement.offsetWidth > 0) {
+    // Only run if the ad container is on the screen and has a width
+    if (adRef.current.offsetWidth > 0) {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
         loaded.current = true; // Mark as loaded to prevent re-pushing

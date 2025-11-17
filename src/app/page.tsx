@@ -28,6 +28,9 @@ export default function Home() {
           </div>
           <SearchForm />
         </main>
+        <footer className="w-full p-4 md:p-8">
+            <AdBanner adKey="footer-ad" />
+        </footer>
       </div>
     </div>
   );
