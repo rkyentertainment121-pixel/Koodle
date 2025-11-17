@@ -94,7 +94,7 @@ export function SearchForm() {
                 <FormItem>
                   <FormControl>
                     <Input
-                      placeholder="Search with Bing..."
+                      placeholder="Search by Kenz Media"
                       className="h-14 rounded-full bg-card px-6 pr-36 text-base shadow-md transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       {...field}
                     />
