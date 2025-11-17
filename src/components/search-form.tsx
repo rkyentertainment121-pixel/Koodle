@@ -62,7 +62,7 @@ export function SearchForm() {
     if (values.query.trim()) {
       const baseUrl = settings.searchEngines[settings.defaultSearchEngine].url;
       const searchUrl = `${baseUrl}${encodeURIComponent(values.query)}`;
-      window.open(searchUrl, '_blank');
+      window.open(searchUrl, '_self');
       setSettings((prevSettings) => ({
         ...prevSettings,
         rewardPoints: prevSettings.rewardPoints + 10,
