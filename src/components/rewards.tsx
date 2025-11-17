@@ -1,12 +1,13 @@
 'use client';
 
 import { useSettings } from '@/context/settings-context';
-import { Award, ChevronDown, IndianRupee } from 'lucide-react';
+import { Award, ChevronDown, FileText, IndianRupee } from 'lucide-react';
 import { WithdrawDialog } from './withdraw-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from './ui/button';
@@ -17,6 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip';
+import Link from 'next/link';
 
 export function Rewards() {
   const { settings } = useSettings();
@@ -41,7 +43,6 @@ export function Rewards() {
                       variant="ghost"
                       size="sm"
                       className="h-auto p-1"
-                      disabled={!canWithdraw}
                     >
                       Redeem
                       <ChevronDown className="h-4 w-4" />
@@ -63,6 +64,13 @@ export function Rewards() {
                 <IndianRupee className="mr-2 h-4 w-4" />
                 <span>Withdraw</span>
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <Link href="/terms" passHref>
+                <DropdownMenuItem>
+                  <FileText className="mr-2 h-4 w-4" />
+                  <span>Terms &amp; Conditions</span>
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuContent>
           </DropdownMenu>
         </WithdrawDialog>
