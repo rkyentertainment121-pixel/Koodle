@@ -169,6 +169,7 @@ export function WithdrawDialog({
               <Button
                 type="submit"
                 className="w-full"
+                disabled={!canWithdraw}
               >
                 Withdraw ₹10
               </Button>
