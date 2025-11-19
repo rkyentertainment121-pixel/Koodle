@@ -60,10 +60,17 @@ export function SearchForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.query.trim()) {
-      setSettings((prevSettings) => ({
-        ...prevSettings,
-        rewardPoints: prevSettings.rewardPoints + 1,
-      }));
+      const isFirstSearch = !sessionStorage.getItem('has_searched');
+      if (!isFirstSearch) {
+        setSettings((prevSettings) => ({
+          ...prevSettings,
+          rewardPoints: prevSettings.rewardPoints + 1,
+        }));
+      }
+      if (isFirstSearch) {
+        sessionStorage.setItem('has_searched', 'true');
+      }
+
       const searchUrl = settings.searchEngines[settings.defaultSearchEngine].url;
       window.location.href = `${searchUrl}${encodeURIComponent(values.query)}`;
     }
@@ -98,6 +105,7 @@ export function SearchForm() {
                       className="h-14 rounded-full bg-card px-6 pr-36 text-base shadow-md transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       {...field}
                     />
+
                   </FormControl>
                 </FormItem>
               )}
