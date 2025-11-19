@@ -21,6 +21,7 @@ type Settings = {
   defaultSearchEngine: keyof SearchEngines;
   searchEngines: SearchEngines;
   rewardPoints: number;
+  openInNewTab: boolean;
 };
 
 type SettingsContextType = {
@@ -37,13 +38,29 @@ const defaultSettings: Settings = {
     yahoo: { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=' },
   },
   rewardPoints: 0,
+  openInNewTab: true,
 };
 
 const SettingsContext =
   createContext<SettingsContextType | undefined>(undefined);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [settings, setSettings] = useState<Settings>(() => {
+    if (typeof window === 'undefined') {
+      return defaultSettings;
+    }
+    try {
+      const item = window.localStorage.getItem('koogle-settings');
+      if (item) {
+        const parsedItem = JSON.parse(item);
+        return { ...defaultSettings, ...parsedItem };
+      }
+      return defaultSettings;
+    } catch (error) {
+      console.error(error);
+      return defaultSettings;
+    }
+  });
 
   useEffect(() => {
     // Award 1 point on the first visit of the session.
@@ -53,6 +70,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       sessionStorage.setItem('daily_reward', 'true');
     }
   }, []);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('koogle-settings', JSON.stringify(settings));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [settings]);
 
   return (
     <SettingsContext.Provider value={{ settings, setSettings }}>
