@@ -22,11 +22,21 @@ import {
 import { useSettings } from '@/context/settings-context';
 import { useToast } from '@/hooks/use-toast';
 
-const formSchema = z.object({
-  accountHolder: z.string().min(2, 'Name is too short'),
-  accountNumber: z.string().regex(/^\d{9,18}$/, 'Enter a valid account number'),
-  ifsc: z.string().regex(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'Enter a valid IFSC code'),
-});
+const formSchema = z
+  .object({
+    accountHolder: z.string().min(2, 'Name is too short'),
+    accountNumber: z
+      .string()
+      .regex(/^\d{9,18}$/, 'Enter a valid account number'),
+    confirmAccountNumber: z
+      .string()
+      .regex(/^\d{9,18}$/, 'Enter a valid account number'),
+    ifsc: z.string().regex(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'Enter a valid IFSC code'),
+  })
+  .refine((data) => data.accountNumber === data.confirmAccountNumber, {
+    message: "Account numbers don't match",
+    path: ['confirmAccountNumber'],
+  });
 
 type WithdrawDialogProps = {
   children?: React.ReactNode;
@@ -34,7 +44,11 @@ type WithdrawDialogProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-export function WithdrawDialog({ children, open, onOpenChange }: WithdrawDialogProps) {
+export function WithdrawDialog({
+  children,
+  open,
+  onOpenChange,
+}: WithdrawDialogProps) {
   const { settings, setSettings } = useSettings();
   const { toast } = useToast();
 
@@ -43,6 +57,7 @@ export function WithdrawDialog({ children, open, onOpenChange }: WithdrawDialogP
     defaultValues: {
       accountHolder: '',
       accountNumber: '',
+      confirmAccountNumber: '',
       ifsc: '',
     },
   });
@@ -111,6 +126,22 @@ export function WithdrawDialog({ children, open, onOpenChange }: WithdrawDialogP
                   <FormControl>
                     <Input
                       placeholder="Enter your bank account number"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmAccountNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Account Number</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Re-enter your bank account number"
                       {...field}
                     />
                   </FormControl>
