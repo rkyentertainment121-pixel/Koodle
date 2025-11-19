@@ -46,8 +46,12 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
 
   useEffect(() => {
-    // Award 1 point when the app is opened
-    setSettings((prev) => ({ ...prev, rewardPoints: prev.rewardPoints + 1 }));
+    // Award 10 points on the first visit of the session.
+    const hasBeenAwarded = sessionStorage.getItem('daily_reward');
+    if (!hasBeenAwarded) {
+      setSettings((prev) => ({ ...prev, rewardPoints: prev.rewardPoints + 10 }));
+      sessionStorage.setItem('daily_reward', 'true');
+    }
   }, []);
 
   return (

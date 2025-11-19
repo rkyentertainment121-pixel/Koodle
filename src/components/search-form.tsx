@@ -62,7 +62,7 @@ export function SearchForm() {
     if (values.query.trim()) {
       setSettings((prevSettings) => ({
         ...prevSettings,
-        rewardPoints: prevSettings.rewardPoints + 10,
+        rewardPoints: prevSettings.rewardPoints + 1,
       }));
       const searchUrl = settings.searchEngines[settings.defaultSearchEngine].url;
       window.location.href = `${searchUrl}${encodeURIComponent(values.query)}`;
