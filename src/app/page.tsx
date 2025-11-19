@@ -3,8 +3,6 @@ import { GeometricBackground } from '@/components/common/geometric-background';
 import { Logo } from '@/components/logo';
 import { Rewards } from '@/components/rewards';
 import { SearchForm } from '@/components/search-form';
-import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -16,14 +14,7 @@ export default function Home() {
           <Link href="/">
             <Logo />
           </Link>
-          <div className='flex items-center gap-2'>
-            <Rewards />
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="/settings">
-                <Settings />
-              </Link>
-            </Button>
-          </div>
+          <Rewards />
         </header>
 
         <main className="relative z-10 flex flex-col items-center justify-center gap-6 p-4 text-center flex-grow">

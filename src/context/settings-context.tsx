@@ -21,7 +21,6 @@ type Settings = {
   defaultSearchEngine: keyof SearchEngines;
   searchEngines: SearchEngines;
   rewardPoints: number;
-  openInNewTab: boolean;
 };
 
 type SettingsContextType = {
@@ -38,7 +37,6 @@ const defaultSettings: Settings = {
     yahoo: { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=' },
   },
   rewardPoints: 0,
-  openInNewTab: true,
 };
 
 const SettingsContext =
@@ -53,7 +51,15 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       const item = window.localStorage.getItem('koogle-settings');
       if (item) {
         const parsedItem = JSON.parse(item);
-        return { ...defaultSettings, ...parsedItem };
+        // We merge with default settings to ensure all keys are present
+        const mergedSettings = { ...defaultSettings, ...parsedItem };
+        // We remove any keys that are not in the default settings to keep it clean
+        Object.keys(mergedSettings).forEach((key) => {
+          if (!(key in defaultSettings)) {
+            delete (mergedSettings as any)[key];
+          }
+        });
+        return mergedSettings;
       }
       return defaultSettings;
     } catch (error) {
@@ -63,7 +69,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    // Award 1 point on the first visit of the session.
     const hasBeenAwarded = sessionStorage.getItem('daily_reward');
     if (!hasBeenAwarded) {
       setSettings((prev) => ({ ...prev, rewardPoints: prev.rewardPoints + 1 }));
@@ -73,7 +78,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem('koogle-settings', JSON.stringify(settings));
+      const settingsToSave = { ...settings };
+      // Do not save searchEngines to localStorage
+      delete (settingsToSave as any).searchEngines;
+      window.localStorage.setItem('koogle-settings', JSON.stringify(settingsToSave));
     } catch (error) {
       console.error(error);
     }

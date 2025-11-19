@@ -74,11 +74,7 @@ export function SearchForm() {
       const searchUrl = settings.searchEngines[settings.defaultSearchEngine].url;
       const fullUrl = `${searchUrl}${encodeURIComponent(values.query)}`;
       
-      if (settings.openInNewTab) {
-        window.open(fullUrl, '_blank');
-      } else {
-        window.location.href = fullUrl;
-      }
+      window.location.href = fullUrl;
     }
   }
 
