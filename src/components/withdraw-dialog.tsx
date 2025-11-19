@@ -169,9 +169,8 @@ export function WithdrawDialog({
               <Button
                 type="submit"
                 className="w-full"
-                disabled={!canWithdraw}
               >
-                {canWithdraw ? 'Withdraw ₹10' : 'Insufficient Points'}
+                Withdraw ₹10
               </Button>
             </div>
           </form>
