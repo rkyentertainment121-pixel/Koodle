@@ -69,14 +69,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    const hasBeenAwarded = sessionStorage.getItem('daily_reward');
-    if (!hasBeenAwarded) {
-      setSettings((prev) => ({ ...prev, rewardPoints: prev.rewardPoints + 1 }));
-      sessionStorage.setItem('daily_reward', 'true');
-    }
-  }, []);
-
-  useEffect(() => {
+    // This effect is to keep the local storage in sync with the state
     try {
       const settingsToSave = { ...settings };
       // Do not save searchEngines to localStorage

@@ -60,16 +60,10 @@ export function SearchForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.query.trim()) {
-      const isFirstSearch = !sessionStorage.getItem('has_searched');
-      if (!isFirstSearch) {
-        setSettings((prevSettings) => ({
-          ...prevSettings,
-          rewardPoints: prevSettings.rewardPoints + 1,
-        }));
-      }
-      if (isFirstSearch) {
-        sessionStorage.setItem('has_searched', 'true');
-      }
+      setSettings((prevSettings) => ({
+        ...prevSettings,
+        rewardPoints: prevSettings.rewardPoints + 1,
+      }));
 
       const searchUrl = settings.searchEngines[settings.defaultSearchEngine].url;
       const fullUrl = `${searchUrl}${encodeURIComponent(values.query)}`;
