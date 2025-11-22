@@ -43,42 +43,45 @@ const SettingsContext =
   createContext<SettingsContextType | undefined>(undefined);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<Settings>(() => {
-    if (typeof window === 'undefined') {
-      return defaultSettings;
-    }
+  const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // This effect runs only on the client, after initial render
     try {
       const item = window.localStorage.getItem('koogle-settings');
       if (item) {
         const parsedItem = JSON.parse(item);
-        // We merge with default settings to ensure all keys are present
         const mergedSettings = { ...defaultSettings, ...parsedItem };
-        // We remove any keys that are not in the default settings to keep it clean
         Object.keys(mergedSettings).forEach((key) => {
           if (!(key in defaultSettings)) {
             delete (mergedSettings as any)[key];
           }
         });
-        return mergedSettings;
+        setSettings(mergedSettings);
       }
-      return defaultSettings;
     } catch (error) {
       console.error(error);
-      return defaultSettings;
     }
-  });
+    setIsLoaded(true); // Mark as loaded
+  }, []);
 
   useEffect(() => {
     // This effect is to keep the local storage in sync with the state
-    try {
-      const settingsToSave = { ...settings };
-      // Do not save searchEngines to localStorage
-      delete (settingsToSave as any).searchEngines;
-      window.localStorage.setItem('koogle-settings', JSON.stringify(settingsToSave));
-    } catch (error) {
-      console.error(error);
+    if (isLoaded) {
+      try {
+        const settingsToSave = { ...settings };
+        // Do not save searchEngines to localStorage
+        delete (settingsToSave as any).searchEngines;
+        window.localStorage.setItem(
+          'koogle-settings',
+          JSON.stringify(settingsToSave)
+        );
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }, [settings]);
+  }, [settings, isLoaded]);
 
   return (
     <SettingsContext.Provider value={{ settings, setSettings }}>
